@@ -1,84 +1,3 @@
-async function generateConfig1() {
-    const button = document.getElementById('generateButton1');
-    const button_text = document.querySelector('#generateButton1 .button__text');
-    const status = document.getElementById('status');
-    const info = document.getElementById('info');
-    const randomNumber = Math.floor(Math.random() * (99 - 10 + 1)) + 10;
-
-    const selectedDNS = getSelectedDNS();
-    const allowedIPs = getSelectedSites();
-
-    button.disabled = true;
-    button.classList.add("button--loading");
-
-    try {
-        const response = await fetch(`/warp1w?dns=${encodeURIComponent(selectedDNS)}&allowedIPs=${encodeURIComponent(allowedIPs)}`);
-        const data = await response.json();
-
-        if (data.success) {
-            const downloadFile = () => {
-                const link = document.createElement('a');
-                link.href = 'data:application/octet-stream;base64,' + data.content;
-                link.download = `WARPr_${randomNumber}.conf`;
-                link.click();
-            };
-
-            button_text.textContent = `Скачать WARPr_${randomNumber}.conf`;
-            button.onclick = downloadFile;
-            downloadFile();
-        } else {
-            status.textContent = 'Ошибка: ' + data.message;
-        }
-    } catch (error) {
-        status.textContent = 'Произошла ошибка при генерации.';
-    } finally {
-        button.disabled = false;
-        button.classList.remove("button--loading");
-    }
-    info.textContent = status.textContent;
-}
-
-async function generateConfig2() {
-    const button = document.getElementById('generateButton2');
-    const button_text = document.querySelector('#generateButton2 .button__text');
-    const status = document.getElementById('status');
-    const info = document.getElementById('info');
-    const randomNumber = Math.floor(Math.random() * (99 - 10 + 1)) + 10;
-
-    const selectedDNS = getSelectedDNS();
-    const allowedIPs = getSelectedSites();
-
-    button.disabled = true;
-    button.classList.add("button--loading");
-
-    try {
-        const response = await fetch(`/warp2w?dns=${encodeURIComponent(selectedDNS)}&allowedIPs=${encodeURIComponent(allowedIPs)}`);
-        const data = await response.json();
-
-        if (data.success) {
-            const downloadFile = () => {
-                const link = document.createElement('a');
-                link.href = 'data:application/octet-stream;base64,' + data.content;
-                link.download = `WARPm1_${randomNumber}.conf`;
-                link.click();
-            };
-
-            button_text.textContent = `Скачать WARPm1_${randomNumber}.conf`;
-            button.onclick = downloadFile;
-            downloadFile();
-        } else {
-            status.textContent = 'Ошибка: ' + data.message;
-        }
-    } catch (error) {
-        status.textContent = 'Произошла ошибка при генерации.';
-    } finally {
-        button.disabled = false;
-        button.classList.remove("button--loading");
-    }
-    info.textContent = status.textContent;
-}
-
-// Добавляем новую функцию для генерации конфига локально
 async function generateConfig2Local() {
     const button = document.getElementById('generateButton2');
     const button_text = document.querySelector('#generateButton2 .button__text');
@@ -99,16 +18,26 @@ async function generateConfig2Local() {
 
         if (data.success && data.privKey && data.peer_pub && data.client_ipv4 && data.client_ipv6) {
             // Генерируем конфиг локально в браузере
-            const conf = generateWarpConfigLocal(
-                data.privKey,
-                data.peer_pub,
-                data.client_ipv4,
-                data.client_ipv6,
-                selectedDNS,
-                allowedIPs
-            );
-            
-            // Конвертируем в base64
+            const conf = `[Interface]
+PrivateKey = ${data.privKey}
+MTU = 1280
+Address = ${data.client_ipv4}, ${data.client_ipv6}
+DNS = ${selectedDNS}
+S1 = 0
+S2 = 0
+Jc = 4
+Jmin = 40
+Jmax = 70
+H1 = 1
+H2 = 2
+H3 = 3
+H4 = 4
+I1 = <1>
+
+[Peer]
+PublicKey = ${data.peer_pub}
+AllowedIPs = ${allowedIPs}
+Endpoint = engage.cloudflareclient.com:4500`;
             const confBase64 = btoa(conf);
             
             const downloadFile = () => {
@@ -274,153 +203,6 @@ async function generateConfig5() {
 	 info.textContent = status.textContent
 }
 
-async function generateConfig6() {
-    const button = document.getElementById('generateButton6');
-    const button_text = document.querySelector('#generateButton6 .button__text');
-    const status = document.getElementById('status');
-    const info = document.getElementById('info');
-    const modal2 = document.getElementById('ThroneModal');
-    const throneText = document.getElementById('throneText');
-
-    button.disabled = true;
-    button.classList.add("button--loading");
-
-    try {
-        const response = await fetch(`/warp6`);
-        const data = await response.json();
-
-        if (data.success) {
-            // Декодируем base64 и вставляем в textarea
-            const conf = atob(data.content);
-            throneText.value = conf;
-            
-            // Показываем модальное окно
-            modal2.style.display = "block";
-            
-            button_text.textContent = "WARP";
-        } else {
-            status.textContent = 'Ошибка: ' + data.message;
-        }
-    } catch (error) {
-        status.textContent = 'Произошла ошибка при генерации.';
-    } finally {
-        button.disabled = false;
-        button.classList.remove("button--loading");
-    }
-    info.textContent = status.textContent;
-}
-
-async function generateConfig7() {
-    const button = document.getElementById('generateButton7');
-    const button_text = document.querySelector('#generateButton7 .button__text');
-    const status = document.getElementById('status');
-	const info = document.getElementById('info');
-    const randomNumber = Math.floor(Math.random() * (99 - 10 + 1)) + 10;
-
-    // Изменяем состояние кнопки на загрузку
-    button.disabled = true;
-    button.classList.add("button--loading");
-
-    try {
-        const response = await fetch(`/warp7`);
-        const data = await response.json();
-
-        if (data.success) {
-            const downloadFile = () => {
-                const link = document.createElement('a');
-                link.href = 'data:application/octet-stream;base64,' + data.content;
-                link.download = `NekoWARP_${randomNumber}.conf`;
-                link.click();
-            };
-
-            button_text.textContent = `Скачать NekoWARP_${randomNumber}.conf`;
-            button.onclick = downloadFile;
-            downloadFile();
-        } else {
-            status.textContent = 'Ошибка: ' + data.message;
-        }
-    } catch (error) {
-        status.textContent = 'Произошла ошибка при генерации.';
-    } finally {
-        button.disabled = false;
-        button.classList.remove("button--loading");
-    }
-	 info.textContent = status.textContent
-}
-
-async function generateConfig8() {
-    const button = document.getElementById('generateButton8');
-    const button_text = document.querySelector('#generateButton8 .button__text');
-    const status = document.getElementById('status');
-	const info = document.getElementById('info');
-    const randomNumber = Math.floor(Math.random() * (99 - 10 + 1)) + 10;
-    button.disabled = true;
-    button.classList.add("button--loading");
-
-    try {
-        const response = await fetch(`/warp8`);
-        const data = await response.json();
-
-        if (data.success) {
-            const downloadFile = () => {
-                const link = document.createElement('a');
-                link.href = 'data:application/octet-stream;base64,' + data.content;
-                link.download = `HusiWARP_${randomNumber}.conf`;
-                link.click();
-            };
-
-            button_text.textContent = `Скачать HusiWARP_${randomNumber}.conf`;
-            button.onclick = downloadFile;
-            downloadFile();
-        } else {
-            status.textContent = 'Ошибка: ' + data.message;
-        }
-    } catch (error) {
-        status.textContent = 'Произошла ошибка при генерации.';
-    } finally {
-        button.disabled = false;
-        button.classList.remove("button--loading");
-    }
-	 info.textContent = status.textContent
-}
-
-async function generateConfig9() {
-    const button = document.getElementById('generateButton9');
-    const button_text = document.querySelector('#generateButton9 .button__text');
-    const status = document.getElementById('status');
-	const info = document.getElementById('info');
-    const randomNumber = Math.floor(Math.random() * (99 - 10 + 1)) + 10;
-
-    button.disabled = true;
-    button.classList.add("button--loading");
-
-    try {
-        const response = await fetch(`/warp9`);
-        const data = await response.json();
-
-        if (data.success) {
-            const downloadFile = () => {
-                const link = document.createElement('a');
-                link.href = 'data:application/octet-stream;base64,' + data.content;
-                link.download = `KaringWARP_${randomNumber}.conf`;
-                link.click();
-            };
-
-            button_text.textContent = `Скачать KaringWARP_${randomNumber}.conf`;
-            button.onclick = downloadFile;
-            downloadFile();
-        } else {
-            status.textContent = 'Ошибка: ' + data.message;
-        }
-    } catch (error) {
-        status.textContent = 'Произошла ошибка при генерации.';
-    } finally {
-        button.disabled = false;
-        button.classList.remove("button--loading");
-    }
-	 info.textContent = status.textContent
-}
-
 async function generateConfig10() {
     const button = document.getElementById('generateButton10');
     const button_text = document.querySelector('#generateButton10 .button__text');
@@ -461,15 +243,10 @@ async function generateConfig10() {
     info.textContent = status.textContent;
 }
 
-document.getElementById('generateButton1').onclick = generateConfig1;
 document.getElementById('generateButton2').onclick = generateConfig2Local;
 document.getElementById('generateButton3').onclick = generateConfig3;
 document.getElementById('generateButton4').onclick = generateConfig4;
 document.getElementById('generateButton5').onclick = generateConfig5;
-document.getElementById('generateButton6').onclick = generateConfig6;
-document.getElementById('generateButton7').onclick = generateConfig7;
-document.getElementById('generateButton8').onclick = generateConfig8;
-document.getElementById('generateButton9').onclick = generateConfig9;
 document.getElementById('generateButton10').onclick = generateConfig10;
 
 document.getElementById('telegramButton').onclick = function() {
