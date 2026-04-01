@@ -1,3 +1,64 @@
+function generateRandomEndpoint() {
+    const ports = [500, 854, 859, 864, 878, 880, 890, 891, 894, 903, 908, 928, 934, 939, 942, 943, 945, 946, 955, 968, 987, 988, 1002, 1010, 1014, 1018, 1070, 1074, 1180, 1387, 1701, 1843, 2371, 2408, 2506, 3138, 3476, 3581, 3854, 4177, 4198, 4233, 4500, 5279, 5956, 7103, 7152, 7156, 7281, 7559, 8319, 8742, 8854, 8886];
+    
+    const selectedServer = getSelectedServer();
+    let port = ports[Math.floor(Math.random() * ports.length)];
+    
+    if (selectedServer === 'def') {
+        const prefixes = ["162.159.192.", "162.159.195.", "engage.cloudflareclient.com"];
+        const prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+        
+        if (prefix === "engage.cloudflareclient.com") {
+            return `${prefix}:${port}`;
+        } else {
+            const randomNumber = Math.floor(Math.random() * 10) + 1;
+            return `${prefix}${randomNumber}:${port}`;
+        }
+    }
+    
+    const serverMap = {
+        'DE': 'de.tribukvy.ltd',     // Германия
+		'PL': 'pl.tribukvy.ltd',     // Польша
+		'EE': 'ee.tribukvy.ltd',     // Эстония 
+        'NL1': 'nl0.tribukvy.ltd',   // Нидерланды 1
+        'NL2': 'nl.tribukvy.ltd',   // Нидерланды 2
+        'FL1': 'fi0.tribukvy.ltd',   // Финляндия 1
+        'FL2': 'fi.tribukvy.ltd'     // Финляндия 2
+    };
+    
+    const endpoint = serverMap[selectedServer] || 'de.tribukvy.ltd'; // По умолчанию Германия
+    return `${endpoint}:${port}`;
+}
+
+// Добавляем функцию для получения выбранного сервера
+function getSelectedServer() {
+    const serverRadios = document.getElementsByName('server');
+    for (let radio of serverRadios) {
+        if (radio.checked) {
+            return radio.id;
+        }
+    }
+    return 'def'; // По умолчанию стандартный
+}
+
+function getSelectedDNS() {
+    if (document.getElementById('cf').checked) {
+        return "1.1.1.1, 1.0.0.1, 2606:4700:4700::1111, 2606:4700:4700::1001";
+    } else if (document.getElementById('malw').checked) {
+        return "84.21.189.133, 2a12:bec4:1460:d5::2, 64.188.98.242, 2a01:ecc0:2c1:2::2";
+    } else if (document.getElementById('xbox').checked) {
+        return "176.99.11.77, 80.78.247.254, 31.192.108.180, 2a00:f940:2:4:2::5d1b, 2a00:f940:2:4:2::21ed";
+	} else if (document.getElementById('geohide').checked) {
+        return "45.155.204.190, 95.182.120.241, 2a0c:9300:0:54::1";
+	} else if (document.getElementById('comss').checked) {
+        return "83.220.169.155, 212.109.195.93, 195.133.25.16, 2a01:230:4:915::2, 2a01:230:4:306::2";
+	} else if (document.getElementById('google').checked) {
+        return "8.8.8.8, 8.8.4.4, 2001:4860:4860::8888, 2001:4860:4860::8844";	
+    }
+}
+
+
+
 async function generateConfig1() {
     const button = document.getElementById('generateButton1');
     const button_text = document.querySelector('#generateButton1 .button__text');
@@ -262,9 +323,9 @@ async function generateConfig10() {
     info.textContent = status.textContent;
 }
 
-document.getElementById('generateButton2').onclick = generateConfig1;
-document.getElementById('generateButton3').onclick = generateConfig2;
-document.getElementById('generateButton4').onclick = generateConfig3;
+document.getElementById('generateButton1').onclick = generateConfig1;
+document.getElementById('generateButton2').onclick = generateConfig2;
+document.getElementById('generateButton3').onclick = generateConfig3;
 document.getElementById('generateButton5').onclick = generateConfig5;
 document.getElementById('generateButton10').onclick = generateConfig10;
 
@@ -272,28 +333,12 @@ document.getElementById('telegramButton').onclick = function() {
     window.location.href = 'https://t.me/warp_1_1_1_1';
 }
 
-document.getElementById('githubButton').onclick = function() {
-    window.location.href = 'https://help-guide.notion.site/1f72684dab0d8092a582ed6328632d06';
+document.getElementById('projectsButton').onclick = function() {
+    window.location.href = 'https://my-other-projects.vercel.app/';
 }
 
 document.getElementById('promoButton').onclick = function() {
     window.location.href = 'https://storage.googleapis.com/amnezia/amnezia.org?m-path=premium&arf=VG755WBZDBAPGGYM';
-}
-
-function getSelectedDNS() {
-    if (document.getElementById('cf').checked) {
-        return "1.1.1.1, 1.0.0.1, 2606:4700:4700::1111, 2606:4700:4700::1001";
-    } else if (document.getElementById('malw').checked) {
-        return "84.21.189.133, 2a12:bec4:1460:d5::2, 64.188.98.242, 2a01:ecc0:2c1:2::2";
-    } else if (document.getElementById('xbox').checked) {
-        return "176.99.11.77, 80.78.247.254, 31.192.108.180, 2a00:f940:2:4:2::5d1b, 2a00:f940:2:4:2::21ed";
-	} else if (document.getElementById('geohide').checked) {
-        return "45.155.204.190, 95.182.120.241, 2a0c:9300:0:54::1";
-	} else if (document.getElementById('comss').checked) {
-        return "83.220.169.155, 212.109.195.93, 195.133.25.16, 2a01:230:4:915::2, 2a01:230:4:306::2";
-	} else if (document.getElementById('google').checked) {
-        return "8.8.8.8, 8.8.4.4, 2001:4860:4860::8888, 2001:4860:4860::8844";	
-    }
 }
 
 function getSelectedSites() {
