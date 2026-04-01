@@ -326,8 +326,8 @@ async function generateConfig10() {
 document.getElementById('generateButton1').onclick = generateConfig1;
 document.getElementById('generateButton2').onclick = generateConfig2;
 document.getElementById('generateButton3').onclick = generateConfig3;
-document.getElementById('generateButton5').onclick = generateConfig5;
-document.getElementById('generateButton10').onclick = generateConfig10;
+document.getElementById('generateButton4').onclick = generateConfig5;
+document.getElementById('generateButton5').onclick = generateConfig10;
 
 document.getElementById('telegramButton').onclick = function() {
     window.location.href = 'https://t.me/warp_1_1_1_1';
