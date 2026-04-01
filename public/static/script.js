@@ -297,11 +297,11 @@ proxy-groups:
     - "AWG 1.5 (3 Вариант)"
   url: 'http://speed.cloudflare.com/'
   interval: 300`;
-        const confBase64 = btoa(conf);
-        
+  
         const downloadFile = () => {
             const link = document.createElement('a');
-            link.href = 'data:application/octet-stream;base64,' + confBase64;
+			const file = new Blob([conf], { type: 'application/octet-stream' });
+            link.href = URL.createObjectURL(file);
             link.download = `ClashWARP_${randomNumber}.yaml`;
             link.click();
         };
