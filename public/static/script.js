@@ -248,26 +248,72 @@ async function generateConfig4() {
         const data = await response.json();
 
         if (data.success && data.privKey && data.peer_pub && data.client_ipv4 && data.client_ipv6) {
-            const conf = `[Interface]
-PrivateKey = ${data.privKey}
-MTU = 1280
-Address = ${data.client_ipv4}, ${data.client_ipv6}
-DNS = ${selectedDNS}
-S1 = 0
-S2 = 0
-Jc = 4
-Jmin = 40
-Jmax = 70
-H1 = 1
-H2 = 2
-H3 = 3
-H4 = 4
-I1 = <4>
+            const conf = `warp-common: &warp-common
+  type: wireguard
+  private-key: ${data.privKey}
+  server: 162.159.192.1
+  port: 500
+  ip: ${data.client_ipv4}
+  ipv6: ${data.client_ipv6}
+  public-key: ${data.peer_pub}
+  allowed-ips: ['0.0.0.0/0']
+  udp: true
+  mtu: 1280
+  remote-dns-resolve: true
+  dns: [1.1.1.1, 1.0.0.1, 2606:4700:4700::1111, 2606:4700:4700::1001]
+   
+proxies:
+- name: "AWG 1.5 (1 Вариант)"
+  <<: *warp-common
+  amnezia-wg-option:
+   jc: 120
+   jmin: 23
+   jmax: 911
+   s1: 0
+   s2: 0
+   h1: 1
+   h2: 2
+   h4: 3
+   h3: 4  
+   i1: <1>
+- name: "AWG 1.5 (2 Вариант)"
+  <<: *warp-common
+  amnezia-wg-option:
+   jc: 120
+   jmin: 23
+   jmax: 911
+   s1: 0
+   s2: 0
+   h1: 1
+   h2: 2
+   h4: 3
+   h3: 4
+   i1: <2>
+- name: "AWG 1.5 (3 Вариант)"
+  <<: *warp-common
+  amnezia-wg-option:
+   jc: 120
+   jmin: 23
+   jmax: 911
+   s1: 0
+   s2: 0
+   h1: 1
+   h2: 2
+   h4: 3
+   h3: 4   
+   i1: <3>
+   i2: <3>
 
-[Peer]
-PublicKey = ${data.peer_pub}
-AllowedIPs = ${allowedIPs}
-Endpoint = engage.cloudflareclient.com:4500`;
+proxy-groups:
+- name: WARP
+  type: select
+  icon: https://www.vectorlogo.zone/logos/cloudflare/cloudflare-icon.svg
+  proxies:
+    - "AWG 1.5 (1 Вариант)"
+    - "AWG 1.5 (2 Вариант)"
+    - "AWG 1.5 (3 Вариант)"
+  url: 'http://speed.cloudflare.com/'
+  interval: 300`;
             const confBase64 = btoa(conf);
             
             const downloadFile = () => {
@@ -454,24 +500,14 @@ if (infoBtn2) {
 // Закрытие по клику на крестики
 span.onclick = function() {
     modal.style.display = "none";
-    modal2.style.display = "none";
     unlockBodyScroll(); // Разблокируем прокрутку
 }
 
-span1.onclick = function() {
-    modal.style.display = "none";
-    modal2.style.display = "none";
-    unlockBodyScroll(); // Разблокируем прокрутку
-}
 
 // Закрытие по клику вне модального окна
 window.onclick = function(event) {
     if (event.target == modal) {
         modal.style.display = "none";
-        unlockBodyScroll();
-    }
-    if (event.target == modal2) {
-        modal2.style.display = "none";
         unlockBodyScroll();
     }
 }
