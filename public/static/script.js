@@ -1,4 +1,4 @@
-async function generateConfig2Local() {
+async function generateConfig1() {
     const button = document.getElementById('generateButton2');
     const button_text = document.querySelector('#generateButton2 .button__text');
     const status = document.getElementById('status');
@@ -46,9 +46,6 @@ Endpoint = engage.cloudflareclient.com:4500`;
                 link.download = `WARPm1_${randomNumber}.conf`;
                 link.click();
             };
-
-            button_text.textContent = `Скачать WARPm1_${randomNumber}.conf`;
-            button.onclick = downloadFile;
             downloadFile();
         } else {
             status.textContent = 'Ошибка: ' + (data.message || 'Не удалось получить данные от Cloudflare');
@@ -63,13 +60,31 @@ Endpoint = engage.cloudflareclient.com:4500`;
     info.textContent = status.textContent;
 }
 
-// Функция для локальной генерации конфига
-function generateWarpConfigLocal(privKey, peerPub, clientIpv4, clientIpv6, dns, allowedIPs) {
-    return `[Interface]
-PrivateKey = ${privKey}
+async function generateConfig2() {
+    const button = document.getElementById('generateButton2');
+    const button_text = document.querySelector('#generateButton2 .button__text');
+    const status = document.getElementById('status');
+    const info = document.getElementById('info');
+    const randomNumber = Math.floor(Math.random() * (99 - 10 + 1)) + 10;
+
+    const selectedDNS = getSelectedDNS();
+    const allowedIPs = getSelectedSites();
+
+    button.disabled = true;
+    button.classList.add("button--loading");
+
+    try {
+        // Получаем данные от Cloudflare через сервер
+        const response = await fetch(`/api/warp-data`);
+        const data = await response.json();
+
+        if (data.success && data.privKey && data.peer_pub && data.client_ipv4 && data.client_ipv6) {
+            // Генерируем конфиг локально в браузере
+            const conf = `[Interface]
+PrivateKey = ${data.privKey}
 MTU = 1280
-Address = ${clientIpv4}, ${clientIpv6}
-DNS = ${dns}
+Address = ${data.client_ipv4}, ${data.client_ipv6}
+DNS = ${selectedDNS}
 S1 = 0
 S2 = 0
 Jc = 4
@@ -79,45 +94,26 @@ H1 = 1
 H2 = 2
 H3 = 3
 H4 = 4
-I1 = <1>
+I1 = <2>
 
 [Peer]
-PublicKey = ${peerPub}
+PublicKey = ${data.peer_pub}
 AllowedIPs = ${allowedIPs}
 Endpoint = engage.cloudflareclient.com:4500`;
-}
-
-async function generateConfig3() {
-    const button = document.getElementById('generateButton3');
-    const button_text = document.querySelector('#generateButton3 .button__text');
-    const status = document.getElementById('status');
-    const info = document.getElementById('info');
-    const randomNumber = Math.floor(Math.random() * (99 - 10 + 1)) + 10;
-    const selectedDNS = getSelectedDNS();
-    const allowedIPs = getSelectedSites();
-
-    button.disabled = true;
-    button.classList.add("button--loading");
-
-    try {
-        const response = await fetch(`/warp3w?dns=${encodeURIComponent(selectedDNS)}&allowedIPs=${encodeURIComponent(allowedIPs)}`);
-        const data = await response.json();
-
-        if (data.success) {
+            const confBase64 = btoa(conf);
+            
             const downloadFile = () => {
                 const link = document.createElement('a');
-                link.href = 'data:application/octet-stream;base64,' + data.content;
+                link.href = 'data:application/octet-stream;base64,' + confBase64;
                 link.download = `WARPm2_${randomNumber}.conf`;
                 link.click();
             };
-
-            button_text.textContent = `Скачать WARPm2_${randomNumber}.conf`;
-            button.onclick = downloadFile;
             downloadFile();
         } else {
-            status.textContent = 'Ошибка: ' + data.message;
+            status.textContent = 'Ошибка: ' + (data.message || 'Не удалось получить данные от Cloudflare');
         }
     } catch (error) {
+        console.error('Error:', error);
         status.textContent = 'Произошла ошибка при генерации.';
     } finally {
         button.disabled = false;
@@ -126,12 +122,13 @@ async function generateConfig3() {
     info.textContent = status.textContent;
 }
 
-async function generateConfig4() {
-    const button = document.getElementById('generateButton4');
-    const button_text = document.querySelector('#generateButton4 .button__text');
+async function generateConfig3() {
+    const button = document.getElementById('generateButton2');
+    const button_text = document.querySelector('#generateButton2 .button__text');
     const status = document.getElementById('status');
     const info = document.getElementById('info');
     const randomNumber = Math.floor(Math.random() * (99 - 10 + 1)) + 10;
+
     const selectedDNS = getSelectedDNS();
     const allowedIPs = getSelectedSites();
 
@@ -139,24 +136,46 @@ async function generateConfig4() {
     button.classList.add("button--loading");
 
     try {
-        const response = await fetch(`/warp4w?dns=${encodeURIComponent(selectedDNS)}&allowedIPs=${encodeURIComponent(allowedIPs)}`);
+        // Получаем данные от Cloudflare через сервер
+        const response = await fetch(`/api/warp-data`);
         const data = await response.json();
 
-        if (data.success) {
+        if (data.success && data.privKey && data.peer_pub && data.client_ipv4 && data.client_ipv6) {
+            // Генерируем конфиг локально в браузере
+            const conf = `[Interface]
+PrivateKey = ${data.privKey}
+MTU = 1280
+Address = ${data.client_ipv4}, ${data.client_ipv6}
+DNS = ${selectedDNS}
+S1 = 0
+S2 = 0
+Jc = 4
+Jmin = 40
+Jmax = 70
+H1 = 1
+H2 = 2
+H3 = 3
+H4 = 4
+I1 = <3>
+
+[Peer]
+PublicKey = ${data.peer_pub}
+AllowedIPs = ${allowedIPs}
+Endpoint = engage.cloudflareclient.com:4500`;
+            const confBase64 = btoa(conf);
+            
             const downloadFile = () => {
                 const link = document.createElement('a');
-                link.href = 'data:application/octet-stream;base64,' + data.content;
+                link.href = 'data:application/octet-stream;base64,' + confBase64;
                 link.download = `WARPm3_${randomNumber}.conf`;
                 link.click();
             };
-
-            button_text.textContent = `Скачать WARPm3_${randomNumber}.conf`;
-            button.onclick = downloadFile;
             downloadFile();
         } else {
-            status.textContent = 'Ошибка: ' + data.message;
+            status.textContent = 'Ошибка: ' + (data.message || 'Не удалось получить данные от Cloudflare');
         }
     } catch (error) {
+        console.error('Error:', error);
         status.textContent = 'Произошла ошибка при генерации.';
     } finally {
         button.disabled = false;
@@ -243,7 +262,7 @@ async function generateConfig10() {
     info.textContent = status.textContent;
 }
 
-document.getElementById('generateButton2').onclick = generateConfig2Local;
+document.getElementById('generateButton2').onclick = generateConfig1;
 document.getElementById('generateButton3').onclick = generateConfig3;
 document.getElementById('generateButton4').onclick = generateConfig4;
 document.getElementById('generateButton5').onclick = generateConfig5;
