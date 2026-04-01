@@ -302,7 +302,7 @@ proxy-groups:
         const downloadFile = () => {
             const link = document.createElement('a');
             link.href = 'data:application/octet-stream;base64,' + confBase64;
-            link.download = `ClashWARP_${randomNumber}.conf`;
+            link.download = `ClashWARP_${randomNumber}.yaml`;
             link.click();
         };
         downloadFile();
