@@ -1,6 +1,6 @@
 async function generateConfig1() {
-    const button = document.getElementById('generateButton2');
-    const button_text = document.querySelector('#generateButton2 .button__text');
+    const button = document.getElementById('generateButton1');
+    const button_text = document.querySelector('#generateButton1 .button__text');
     const status = document.getElementById('status');
     const info = document.getElementById('info');
     const randomNumber = Math.floor(Math.random() * (99 - 10 + 1)) + 10;
@@ -123,8 +123,8 @@ Endpoint = engage.cloudflareclient.com:4500`;
 }
 
 async function generateConfig3() {
-    const button = document.getElementById('generateButton2');
-    const button_text = document.querySelector('#generateButton2 .button__text');
+    const button = document.getElementById('generateButton3');
+    const button_text = document.querySelector('#generateButton3 .button__text');
     const status = document.getElementById('status');
     const info = document.getElementById('info');
     const randomNumber = Math.floor(Math.random() * (99 - 10 + 1)) + 10;
