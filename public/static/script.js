@@ -64,11 +64,9 @@ async function generateConfig1() {
     button.classList.add("button--loading");
 
     try {
-        const response = await fetch(`/api/warp-data`);
-        const data = await response.json();
+        const data = await fetchWarpData();
 
-        if (data.success && data.privKey && data.peer_pub && data.client_ipv4 && data.client_ipv6) {
-            const conf = `[Interface]
+        const conf = `[Interface]
 PrivateKey = ${data.privKey}
 MTU = 1280
 Address = ${data.client_ipv4}, ${data.client_ipv6}
@@ -88,21 +86,18 @@ I1 = <1>
 PublicKey = ${data.peer_pub}
 AllowedIPs = ${allowedIPs}
 Endpoint = ${randomEndpoint}`;
-            const confBase64 = btoa(conf);
-            
-            const downloadFile = () => {
-                const link = document.createElement('a');
-                link.href = 'data:application/octet-stream;base64,' + confBase64;
-                link.download = `WARPm1_${randomNumber}.conf`;
-                link.click();
-            };
-            downloadFile();
-        } else {
-            status.textContent = 'Ошибка: ' + (data.message || 'Не удалось получить данные от Cloudflare');
-        }
+        const confBase64 = btoa(conf);
+        
+        const downloadFile = () => {
+            const link = document.createElement('a');
+            link.href = 'data:application/octet-stream;base64,' + confBase64;
+            link.download = `WARPm1_${randomNumber}.conf`;
+            link.click();
+        };
+        downloadFile();
     } catch (error) {
         console.error('Error:', error);
-        status.textContent = 'Произошла ошибка при генерации.';
+        status.textContent = error.message || 'Произошла ошибка при генерации.';
     } finally {
         button.disabled = false;
         button.classList.remove("button--loading");
@@ -124,11 +119,9 @@ async function generateConfig2() {
     button.classList.add("button--loading");
 
     try {
-        const response = await fetch(`/api/warp-data`);
-        const data = await response.json();
+        const data = await fetchWarpData();
 
-        if (data.success && data.privKey && data.peer_pub && data.client_ipv4 && data.client_ipv6) {
-            const conf = `[Interface]
+        const conf = `[Interface]
 PrivateKey = ${data.privKey}
 MTU = 1280
 Address = ${data.client_ipv4}, ${data.client_ipv6}
@@ -148,21 +141,18 @@ I1 = <2>
 PublicKey = ${data.peer_pub}
 AllowedIPs = ${allowedIPs}
 Endpoint = ${randomEndpoint}`;
-            const confBase64 = btoa(conf);
-            
-            const downloadFile = () => {
-                const link = document.createElement('a');
-                link.href = 'data:application/octet-stream;base64,' + confBase64;
-                link.download = `WARPm2_${randomNumber}.conf`;
-                link.click();
-            };
-            downloadFile();
-        } else {
-            status.textContent = 'Ошибка: ' + (data.message || 'Не удалось получить данные от Cloudflare');
-        }
+        const confBase64 = btoa(conf);
+        
+        const downloadFile = () => {
+            const link = document.createElement('a');
+            link.href = 'data:application/octet-stream;base64,' + confBase64;
+            link.download = `WARPm2_${randomNumber}.conf`;
+            link.click();
+        };
+        downloadFile();
     } catch (error) {
         console.error('Error:', error);
-        status.textContent = 'Произошла ошибка при генерации.';
+        status.textContent = error.message || 'Произошла ошибка при генерации.';
     } finally {
         button.disabled = false;
         button.classList.remove("button--loading");
@@ -184,11 +174,9 @@ async function generateConfig3() {
     button.classList.add("button--loading");
 
     try {
-        const response = await fetch(`/api/warp-data`);
-        const data = await response.json();
+        const data = await fetchWarpData();
 
-        if (data.success && data.privKey && data.peer_pub && data.client_ipv4 && data.client_ipv6) {
-            const conf = `[Interface]
+        const conf = `[Interface]
 PrivateKey = ${data.privKey}
 MTU = 1280
 Address = ${data.client_ipv4}, ${data.client_ipv6}
@@ -208,21 +196,18 @@ I1 = <3>
 PublicKey = ${data.peer_pub}
 AllowedIPs = ${allowedIPs}
 Endpoint = ${randomEndpoint}`;
-            const confBase64 = btoa(conf);
-            
-            const downloadFile = () => {
-                const link = document.createElement('a');
-                link.href = 'data:application/octet-stream;base64,' + confBase64;
-                link.download = `WARPm3_${randomNumber}.conf`;
-                link.click();
-            };
-            downloadFile();
-        } else {
-            status.textContent = 'Ошибка: ' + (data.message || 'Не удалось получить данные от Cloudflare');
-        }
+        const confBase64 = btoa(conf);
+        
+        const downloadFile = () => {
+            const link = document.createElement('a');
+            link.href = 'data:application/octet-stream;base64,' + confBase64;
+            link.download = `WARPm3_${randomNumber}.conf`;
+            link.click();
+        };
+        downloadFile();
     } catch (error) {
         console.error('Error:', error);
-        status.textContent = 'Произошла ошибка при генерации.';
+        status.textContent = error.message || 'Произошла ошибка при генерации.';
     } finally {
         button.disabled = false;
         button.classList.remove("button--loading");
@@ -244,11 +229,9 @@ async function generateConfig4() {
     button.classList.add("button--loading");
 
     try {
-        const response = await fetch(`/api/warp-data`);
-        const data = await response.json();
+        const data = await fetchWarpData();
 
-        if (data.success && data.privKey && data.peer_pub && data.client_ipv4 && data.client_ipv6) {
-            const conf = `warp-common: &warp-common
+        const conf = `warp-common: &warp-common
   type: wireguard
   private-key: ${data.privKey}
   server: 162.159.192.1
@@ -314,21 +297,18 @@ proxy-groups:
     - "AWG 1.5 (3 Вариант)"
   url: 'http://speed.cloudflare.com/'
   interval: 300`;
-            const confBase64 = btoa(conf);
-            
-            const downloadFile = () => {
-                const link = document.createElement('a');
-                link.href = 'data:application/octet-stream;base64,' + confBase64;
-                link.download = `ClashWARP_${randomNumber}.conf`;
-                link.click();
-            };
-            downloadFile();
-        } else {
-            status.textContent = 'Ошибка: ' + (data.message || 'Не удалось получить данные от Cloudflare');
-        }
+        const confBase64 = btoa(conf);
+        
+        const downloadFile = () => {
+            const link = document.createElement('a');
+            link.href = 'data:application/octet-stream;base64,' + confBase64;
+            link.download = `ClashWARP_${randomNumber}.conf`;
+            link.click();
+        };
+        downloadFile();
     } catch (error) {
         console.error('Error:', error);
-        status.textContent = 'Произошла ошибка при генерации.';
+        status.textContent = error.message || 'Произошла ошибка при генерации.';
     } finally {
         button.disabled = false;
         button.classList.remove("button--loading");
@@ -352,11 +332,9 @@ async function generateConfig5() {
     button.classList.add("button--loading");
 
     try {
-        const response = await fetch(`/api/warp-data`);
-        const data = await response.json();
+        const data = await fetchWarpData();
 
-        if (data.success && data.privKey && data.peer_pub && data.client_ipv4 && data.client_ipv6) {
-            const conf = `[Interface]
+        const conf = `[Interface]
 PrivateKey = ${data.privKey}
 MTU = 1280
 Address = ${data.client_ipv4}, ${data.client_ipv6}
@@ -381,21 +359,18 @@ Ib = curl
 PublicKey = ${data.peer_pub}
 AllowedIPs = ${allowedIPs}
 Endpoint = ${randomEndpoint}`;
-            const confBase64 = btoa(conf);
-            
-            const downloadFile = () => {
-                const link = document.createElement('a');
-                link.href = 'data:application/octet-stream;base64,' + confBase64;
-                link.download = `WARPw_${randomNumber}.conf`;
-                link.click();
-            };
-            downloadFile();
-        } else {
-            status.textContent = 'Ошибка: ' + (data.message || 'Не удалось получить данные от Cloudflare');
-        }
+        const confBase64 = btoa(conf);
+        
+        const downloadFile = () => {
+            const link = document.createElement('a');
+            link.href = 'data:application/octet-stream;base64,' + confBase64;
+            link.download = `WARPw_${randomNumber}.conf`;
+            link.click();
+        };
+        downloadFile();
     } catch (error) {
         console.error('Error:', error);
-        status.textContent = 'Произошла ошибка при генерации.';
+        status.textContent = error.message || 'Произошла ошибка при генерации.';
     } finally {
         button.disabled = false;
         button.classList.remove("button--loading");
@@ -720,3 +695,34 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// Кеш для хранения данных от сервера
+let cachedWarpData = null;
+
+async function fetchWarpData() {
+    // Если данные уже есть в кеше, возвращаем их
+    if (cachedWarpData) {
+        return cachedWarpData;
+    }
+    
+    // Иначе запрашиваем с сервера
+    const response = await fetch(`/api/warp-data`);
+    const data = await response.json();
+    
+    if (data.success && data.privKey && data.peer_pub && data.client_ipv4 && data.client_ipv6) {
+        // Сохраняем в кеш
+        cachedWarpData = data;
+        return data;
+    } else {
+        throw new Error(data.message || 'Не удалось получить данные от Cloudflare');
+    }
+}
+
+// Сброс кеша при загрузке страницы
+function resetCache() {
+    cachedWarpData = null;
+}
+
+// Вызываем сброс кеша при загрузке страницы
+window.addEventListener('load', function() {
+    resetCache();
+});
