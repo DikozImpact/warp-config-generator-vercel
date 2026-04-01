@@ -172,4 +172,19 @@ app.get('/warp10w', async (req, res) => {
     }
 });
 
+app.get('/api/warp-data', async (req, res) => {
+    try {
+        const { getWarpData } = require('./warp');
+        const data = await getWarpData();
+        if (data) {
+            res.json({ success: true, ...data });
+        } else {
+            res.status(500).json({ success: false, message: 'Не удалось получить данные от Cloudflare' });
+        }
+    } catch (error) {
+        console.error('Ошибка при получении данных:', error);
+        res.status(500).json({ success: false, message: 'Произошла ошибка на сервере.' });
+    }
+});
+
 module.exports = app;
