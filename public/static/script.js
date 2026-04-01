@@ -17,8 +17,10 @@ function generateRandomEndpoint() {
     }
     
     const serverMap = {
-        'DE': 'de.tribukvy.ltd',     // Германия
-		'PL': 'pl.tribukvy.ltd',     // Польша
+		'PL1': 'pl.tribukvy.ltd',     // Польша 1 
+		'PL2': 'pl0.tribukvy.ltd',     // Польша 2
+		'DE': 'de.tribukvy.ltd',     // Германия
+		'RU': 'ru0.tribukvy.ltd',     // Россия
 		'EE': 'ee.tribukvy.ltd',     // Эстония 
         'NL1': 'nl0.tribukvy.ltd',   // Нидерланды 1
         'NL2': 'nl.tribukvy.ltd',   // Нидерланды 2
@@ -54,7 +56,7 @@ async function generateConfig1() {
     const status = document.getElementById('status');
     const info = document.getElementById('info');
     const randomNumber = Math.floor(Math.random() * (99 - 10 + 1)) + 10;
-
+	const randomEndpoint = generateRandomEndpoint();
     const selectedDNS = getSelectedDNS();
     const allowedIPs = getSelectedSites();
 
@@ -85,7 +87,7 @@ I1 = <1>
 [Peer]
 PublicKey = ${data.peer_pub}
 AllowedIPs = ${allowedIPs}
-Endpoint = engage.cloudflareclient.com:4500`;
+Endpoint = ${randomEndpoint}`;
             const confBase64 = btoa(conf);
             
             const downloadFile = () => {
@@ -114,7 +116,7 @@ async function generateConfig2() {
     const status = document.getElementById('status');
     const info = document.getElementById('info');
     const randomNumber = Math.floor(Math.random() * (99 - 10 + 1)) + 10;
-
+	const randomEndpoint = generateRandomEndpoint();
     const selectedDNS = getSelectedDNS();
     const allowedIPs = getSelectedSites();
 
@@ -145,7 +147,7 @@ I1 = <2>
 [Peer]
 PublicKey = ${data.peer_pub}
 AllowedIPs = ${allowedIPs}
-Endpoint = engage.cloudflareclient.com:4500`;
+Endpoint = ${randomEndpoint}`;
             const confBase64 = btoa(conf);
             
             const downloadFile = () => {
@@ -174,7 +176,7 @@ async function generateConfig3() {
     const status = document.getElementById('status');
     const info = document.getElementById('info');
     const randomNumber = Math.floor(Math.random() * (99 - 10 + 1)) + 10;
-
+	const randomEndpoint = generateRandomEndpoint();
     const selectedDNS = getSelectedDNS();
     const allowedIPs = getSelectedSites();
 
@@ -205,7 +207,7 @@ I1 = <3>
 [Peer]
 PublicKey = ${data.peer_pub}
 AllowedIPs = ${allowedIPs}
-Endpoint = engage.cloudflareclient.com:4500`;
+Endpoint = ${randomEndpoint}`;
             const confBase64 = btoa(conf);
             
             const downloadFile = () => {
@@ -294,9 +296,11 @@ async function generateConfig5() {
     const status = document.getElementById('status');
     const info = document.getElementById('info');
     const randomNumber = Math.floor(Math.random() * (99 - 10 + 1)) + 10;
-
+	const randomEndpoint = generateRandomEndpoint();
     const selectedDNS = getSelectedDNS();
     const allowedIPs = getSelectedSites();
+    const domains = ['apteka.ru', 'psbank.ru', 'lenta.ru', 'www.pochta.ru', 'rzd.ru', 'rutube.ru', 'gosuslugi.ru'];
+    const randomDomain = domains[Math.floor(Math.random() * domains.length)];
 
     button.disabled = true;
     button.classList.add("button--loading");
@@ -320,12 +324,17 @@ H1 = 1
 H2 = 2
 H3 = 3
 H4 = 4
-I1 = <5>
+
+# Protocol masking
+
+Id = ${randomDomain}
+Ip = quic
+Ib = curl
 
 [Peer]
 PublicKey = ${data.peer_pub}
 AllowedIPs = ${allowedIPs}
-Endpoint = engage.cloudflareclient.com:4500`;
+Endpoint = ${randomEndpoint}`;
             const confBase64 = btoa(conf);
             
             const downloadFile = () => {
