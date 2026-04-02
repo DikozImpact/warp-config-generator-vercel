@@ -104,8 +104,8 @@ button.button--loading {
 }
 
 .button--loading .button__text {display: none;}
-#generateButton1,#generateButton2,#generateButton3 {background: linear-gradient(90deg, #eeac43, #f15874);}
-#generateButton4,#generateButton5 {
+#generateButton1,#generateButton2 {background: linear-gradient(90deg, #eeac43, #f15874);}
+#generateButton3,#generateButton4,#generateButton5 {
 	background: linear-gradient(90deg, #eeac43, #f15874);
 	margin-bottom: 6px;
 }
