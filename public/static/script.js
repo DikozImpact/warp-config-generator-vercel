@@ -74,14 +74,6 @@ async function generateConfig1() {
 			}
 		}
 		
-		const ipv6Toggle = document.getElementById('ipv6');
-		let address = data.client_ipv4;
-		let dns = selectedDNS;
-		
-		if (ipv6Toggle.checked) {
-			address = `${data.client_ipv4}, ${data.client_ipv6}`;
-		} else {dns = dns.split(',').filter(ip => !ip.includes(':')).join(',');}
-		
 	const allowedIPs = getSelectedSites();
 
     button.disabled = true;
@@ -89,6 +81,13 @@ async function generateConfig1() {
 
     try {
         const data = await fetchWarpData();
+		const ipv6Toggle = document.getElementById('ipv6');
+		let address = data.client_ipv4;
+		let dns = selectedDNS;
+		
+		if (ipv6Toggle.checked) {
+			address = `${data.client_ipv4}, ${data.client_ipv6}`;
+		} else {dns = dns.split(',').filter(ip => !ip.includes(':')).join(',');}
 
         const conf = `[Interface]
 PrivateKey = ${data.privKey}
@@ -157,13 +156,7 @@ async function generateConfig2() {
 			}
 		}
 		
-		const ipv6Toggle = document.getElementById('ipv6');
-		let address = data.client_ipv4;
-		let dns = selectedDNS;
 		
-		if (ipv6Toggle.checked) {
-			address = `${data.client_ipv4}, ${data.client_ipv6}`;
-		} else {dns = dns.split(',').filter(ip => !ip.includes(':')).join(',');}
 	
 	const allowedIPs = getSelectedSites();
 
@@ -172,6 +165,14 @@ async function generateConfig2() {
 
     try {
         const data = await fetchWarpData();
+
+		const ipv6Toggle = document.getElementById('ipv6');
+		let address = data.client_ipv4;
+		let dns = selectedDNS;
+		
+		if (ipv6Toggle.checked) {
+			address = `${data.client_ipv4}, ${data.client_ipv6}`;
+		} else {dns = dns.split(',').filter(ip => !ip.includes(':')).join(',');}
 
         const conf = `[Interface]
 PrivateKey = ${data.privKey}
@@ -240,13 +241,6 @@ async function generateConfig3() {
 			}
 		}
 		
-		const ipv6Toggle = document.getElementById('ipv6');
-		let address = data.client_ipv4;
-		let dns = selectedDNS;
-		
-		if (ipv6Toggle.checked) {
-			address = `${data.client_ipv4}, ${data.client_ipv6}`;
-		} else {dns = dns.split(',').filter(ip => !ip.includes(':')).join(',');}
 	
 	const allowedIPs = getSelectedSites();
 
@@ -255,6 +249,14 @@ async function generateConfig3() {
 
     try {
         const data = await fetchWarpData();
+
+		const ipv6Toggle = document.getElementById('ipv6');
+		let address = data.client_ipv4;
+		let dns = selectedDNS;
+		
+		if (ipv6Toggle.checked) {
+			address = `${data.client_ipv4}, ${data.client_ipv6}`;
+		} else {dns = dns.split(',').filter(ip => !ip.includes(':')).join(',');}
 
         const conf = `[Interface]
 PrivateKey = ${data.privKey}
@@ -418,14 +420,6 @@ async function generateConfig5() {
 				persistentKeepalive = `\nPersistentKeepalive = 25`;
 			}
 		}
-
-		const ipv6Toggle = document.getElementById('ipv6');
-		let address = data.client_ipv4;
-		let dns = selectedDNS;
-		
-		if (ipv6Toggle.checked) {
-			address = `${data.client_ipv4}, ${data.client_ipv6}`;
-		} else {dns = dns.split(',').filter(ip => !ip.includes(':')).join(',');}
 	
 	const allowedIPs = getSelectedSites();
     const domains = ['apteka.ru', 'psbank.ru', 'lenta.ru', 'www.pochta.ru', 'rzd.ru', 'rutube.ru', 'gosuslugi.ru'];
@@ -436,6 +430,14 @@ async function generateConfig5() {
 
     try {
         const data = await fetchWarpData();
+
+		const ipv6Toggle = document.getElementById('ipv6');
+		let address = data.client_ipv4;
+		let dns = selectedDNS;
+		
+		if (ipv6Toggle.checked) {
+			address = `${data.client_ipv4}, ${data.client_ipv6}`;
+		} else {dns = dns.split(',').filter(ip => !ip.includes(':')).join(',');}
 
         const conf = `[Interface]
 PrivateKey = ${data.privKey}
