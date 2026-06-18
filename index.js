@@ -25,4 +25,19 @@ app.get('/api/warp-data', async (req, res) => {
     }
 });
 
+app.get('/api/msq-data', async (req, res) => {
+    try {
+        const { getMSQData } = require('./msq');
+        const data = await getMSQData();
+        if (data) {
+            res.json({ success: true, ...data });
+        } else {
+            res.status(500).json({ success: false, message: 'Не удалось получить данные от Cloudflare' });
+        }
+    } catch (error) {
+        console.error('Ошибка при получении данных:', error);
+        res.status(500).json({ success: false, message: 'Произошла ошибка на сервере.' });
+    }
+});
+
 module.exports = app;
