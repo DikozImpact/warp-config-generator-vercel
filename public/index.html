@@ -67,6 +67,14 @@
 
     <button id="telegramButton"><span class="button__text">Telegram</span></button>
 	<button id="promoButton" class="glow-on-hover"><span class="button__text">Amnezia <a style="color: #A40059">Premium<a></span></button>
+
+	<button id="adButton" class="whitelist-button">
+		<span>Обход белых списков</span>
+		<span class="whitelist-button__icon" aria-hidden="true">
+			<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+		</span>
+	</button>
+	
     <button id="projectsButton"><span class="button__text">Другие проекты</span></button>
 	<div id="info1">Сделано на основе ресурсов 
     <a href="https://warp2.llimonix.pw/" target="_blank" rel="noopener noreferrer">llimonix</a> 
@@ -234,10 +242,14 @@
     <div class="server-option-content">🇩🇪 Германия</div>
     <input id="DE" type="radio" name="server" class="server-radio" />
   </label>
+  	  <label class="server-option">
+    <div class="server-option-content">🇪🇪 Эстония</div>
+    <input id="EE" type="radio" name="server" class="server-radio" />
+  </label>	
 	  <label class="server-option">
     <div class="server-option-content">🇷🇺 Россия</div>
     <input id="RU" type="radio" name="server" class="server-radio" />
-  </label>
+  </label>	
   
   <label class="server-option">
     <div class="server-option-content">[LTE] 🇫🇮 Финляндия</div>
@@ -246,6 +258,10 @@
     <label class="server-option">
     <div class="server-option-content">[LTE] 🇵🇱 Польша</div>
     <input id="ltePL" type="radio" name="server" class="server-radio" />
+  </label>
+    <label class="server-option">
+    <div class="server-option-content">[LTE] 🇺🇸 США</div>
+    <input id="lteUS" type="radio" name="server" class="server-radio" />
   </label>
   
 </div>		
